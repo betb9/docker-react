@@ -1,5 +1,4 @@
-name: Docker Image CI
-
+name: Deploy Frontend
 on:
   push:
     branches: [ "main" ]
@@ -13,4 +12,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build . --file Dockerfile.dev --tag my-image-name:$(date +%s)
+      run: docker build . --file Dockerfile.dev --tag betb9/docker-react:$(date +%s)
+    - name: Run tests
+      run: docker run -e CI=true betb9/docker-react:$(date +%s) npm test
