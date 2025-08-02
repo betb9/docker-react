@@ -14,4 +14,4 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile.dev --tag betb9/docker-react
     - name: Run tests
-      run: docker run -e CI=true betb9/docker-react npm test
+      run: docker run -e CI=true betb9/docker-react npm test -- --coverage
