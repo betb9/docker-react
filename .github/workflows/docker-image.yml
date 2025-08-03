@@ -6,6 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: Frontend-env
 
     steps:
     - uses: actions/checkout@v4
@@ -16,13 +17,13 @@ jobs:
     - name: Generate deployment package
       run: zip -r deploy.zip . -x '*.git*'
     - name: Deploy to ElasticBeanStalk
-      uses: einaregilsson/beanstalk-deploy@v18
+      uses: einaregilsson/beanstalk-deploy@v22
       with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         application_name: frontend
         environment_name: Frontend-env
         existing_bucket_name: elasticbeanstalk-eu-west-3-244928502257
-        region: "eu-west-3"
         version_label: ${{ github.sha }}
+        region: eu-west-3
         deployment_package: deploy.zip
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
